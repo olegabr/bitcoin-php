@@ -12,10 +12,11 @@ use BitWasp\Buffertools\BufferInterface;
 class StackTest extends AbstractTestCase
 {
     /**
-     * @expectedException \RuntimeException
      */
     public function testPopException()
     {
+        $this->expectException(\RuntimeException::class);
+
         $stack = new Stack;
         $stack->pop();
     }
@@ -64,10 +65,11 @@ class StackTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Exception
      */
     public function testEraseException()
     {
+        $this->expectException(\Exception::class);
+
         $stack = new Stack;
         unset($stack[0]);
     }

@@ -51,11 +51,12 @@ class EcTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Failed to find valid recovery factor
      */
     public function testCalcPubkeyRecidFail()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Failed to find valid recovery factor');
+
         $math = new Math();
         $g = EccFactory::getSecgCurves($math)->generator256k1();
 

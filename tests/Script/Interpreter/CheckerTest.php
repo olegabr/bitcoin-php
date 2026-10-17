@@ -15,11 +15,12 @@ class CheckerTest extends AbstractTestCase
 {
 
     /**
-     * @expectedException \BitWasp\Bitcoin\Exceptions\ScriptRuntimeException
-     * @expectedExceptionMessage Signature with invalid hashtype
      */
     public function testCheckSignatureEncodingInvalidHashtype()
     {
+        $this->expectException(\BitWasp\Bitcoin\Exceptions\ScriptRuntimeException::class);
+        $this->expectExceptionMessage('Signature with invalid hashtype');
+
         $f = InterpreterInterface::VERIFY_STRICTENC;
         $c = new Checker(Bitcoin::getEcAdapter(), new Transaction(), 0, 0);
 
@@ -43,11 +44,12 @@ class CheckerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \BitWasp\Bitcoin\Exceptions\ScriptRuntimeException
-     * @expectedExceptionMessage Signature s element was not low
      */
     public function testCheckSignatureEncodingLowS()
     {
+        $this->expectException(\BitWasp\Bitcoin\Exceptions\ScriptRuntimeException::class);
+        $this->expectExceptionMessage('Signature s element was not low');
+
         $f = InterpreterInterface::VERIFY_LOW_S;
         $c = new Checker(Bitcoin::getEcAdapter(), new Transaction(), 0, 0);
         $buffer = Buffer::hex('30450220377bf4cab9bbdb219f1b0cca56f4a39fbf787d6fa9d04e248101d498de991d30022100b8e0c72dfab9a0d88eb2703c62e0e57ab2cb906e8f156b7641c2f0e24b8bba2b01');
@@ -68,11 +70,12 @@ class CheckerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \BitWasp\Bitcoin\Exceptions\ScriptRuntimeException
-     * @expectedExceptionMessage Signature with incorrect encoding
      */
     public function testCheckSignatureEncodingWhenFlagSet()
     {
+        $this->expectException(\BitWasp\Bitcoin\Exceptions\ScriptRuntimeException::class);
+        $this->expectExceptionMessage('Signature with incorrect encoding');
+
         $f = InterpreterInterface::VERIFY_DERSIG;
         $c = new Checker(Bitcoin::getEcAdapter(), new Transaction(), 0, 0);
         $buffer = new Buffer('obviously incorrect.....?');
@@ -119,11 +122,12 @@ class CheckerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \BitWasp\Bitcoin\Exceptions\ScriptRuntimeException
-     * @expectedExceptionMessage Signature with incorrect encoding
      */
     public function testIsLowDERFailsWithIncorrectEncoding()
     {
+        $this->expectException(\BitWasp\Bitcoin\Exceptions\ScriptRuntimeException::class);
+        $this->expectExceptionMessage('Signature with incorrect encoding');
+
         $checker = new Checker(Bitcoin::getEcAdapter(), new Transaction(), 0, 0);
         $checker->isLowDerSignature(new Buffer('abcd'));
     }
@@ -164,11 +168,12 @@ class CheckerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \BitWasp\Bitcoin\Exceptions\ScriptRuntimeException
-     * @expectedExceptionMessage Public key with incorrect encoding
      */
     public function testCheckPublicKeyEncodingFail()
     {
+        $this->expectException(\BitWasp\Bitcoin\Exceptions\ScriptRuntimeException::class);
+        $this->expectExceptionMessage('Public key with incorrect encoding');
+
         $f = InterpreterInterface::VERIFY_STRICTENC;
         $c = new Checker(Bitcoin::getEcAdapter(), new Transaction(), 0, 0);
         $pubkey = Buffer::hex('045e9392308b08d0d663961463b6cd056a66b757a2ced9dde197c21362360237f231b80ea66315898969f5c079f0ba3fc1c0661ed8c853ad15043f22b7779c95');

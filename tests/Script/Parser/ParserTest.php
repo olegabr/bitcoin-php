@@ -73,15 +73,25 @@ class ParserTest extends AbstractTestCase
     {
         $parser = ScriptFactory::fromHex($script)->getScriptParser();
 
-        $result = $parser->next();
+        // next() only walks the operations decoded so far; decode() is what
+        // actually parses (and throws for truncated pushes).
+        $operations = null;
+        try {
+            $operations = $parser->decode();
+        } catch (\Exception $e) {
+            $operations = null;
+        }
 
-        if ($result !== null) {
-            if ($result->isPush()) {
-                $data = $result->getData();
-                if ($data->getSize() > 0) {
-                    $this->assertSame($expectedPushData, $data->getBinary());
-                }
-            }
+        $parsed = null !== $operations && 0 !== count($operations);
+        $this->assertSame($result, $parsed, 'parser result for "' . $script . '"');
+        if (!$parsed) {
+            return;
+        }
+
+        $operation = $operations[0];
+        $this->assertSame($expectedOp, $operation->getOp());
+        if ($operation->isPush()) {
+            $this->assertSame($expectedPushData, $operation->getData()->getBinary());
         }
     }
 

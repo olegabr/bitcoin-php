@@ -15,10 +15,11 @@ class ExtendedKeySerializerTest extends AbstractTestCase
     /**
      * @dataProvider getEcAdapters
      * @param EcAdapterInterface $adapter
-     * @expectedException \BitWasp\Buffertools\Exceptions\ParserOutOfRange
      */
     public function testInvalidKey(EcAdapterInterface $adapter)
     {
+        $this->expectException(\BitWasp\Buffertools\Exceptions\ParserOutOfRange::class);
+
         $network = NetworkFactory::bitcoinTestnet();
         $serializer = new ExtendedKeySerializer($adapter);
         $serializer->parse($network, new Buffer());

@@ -54,11 +54,12 @@ class TransactionSerializerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \BitWasp\Buffertools\Exceptions\ParserOutOfRange
-     * @expectedExceptionMessage Insufficient data remaining for VarString
      */
     public function testInvalidTxinVarint()
     {
+        $this->expectException(\BitWasp\Buffertools\Exceptions\ParserOutOfRange::class);
+        $this->expectExceptionMessage('Insufficient data remaining for VarString');
+
         // not perfect, but gotta explode somewhere
         $hex = $this->dataFile('biginputtx.invalid.txt');
         TransactionFactory::fromHex($hex);

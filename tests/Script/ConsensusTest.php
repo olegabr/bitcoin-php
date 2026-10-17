@@ -27,9 +27,11 @@ class ConsensusTest extends ScriptCheckTestBase
 
     public function testGetBitcoinConsensus()
     {
-        if ($this->getExpectedAdapter() === BitcoinConsensus::class) {
-            $this->assertInstanceOf(BitcoinConsensus::class, ScriptFactory::getBitcoinConsensus());
+        if ($this->getExpectedAdapter() !== BitcoinConsensus::class) {
+            $this->markTestSkipped('ext-bitcoinconsensus is not loaded');
         }
+
+        $this->assertInstanceOf(BitcoinConsensus::class, ScriptFactory::getBitcoinConsensus());
     }
 
     public function testDefaultAdapter()

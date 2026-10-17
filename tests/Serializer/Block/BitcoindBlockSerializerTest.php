@@ -35,10 +35,11 @@ class BitcoindBlockSerializerTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \RuntimeException
      */
     public function testWithInvalidNetBytes()
     {
+        $this->expectException(\RuntimeException::class);
+
         $math = new Math();
         $bhs = new BlockHeaderSerializer();
         $txs = new TransactionSerializer();

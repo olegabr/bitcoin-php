@@ -78,10 +78,11 @@ class UriTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testBip21MustProvideAddress()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $address = null;
         new Uri($address);
     }

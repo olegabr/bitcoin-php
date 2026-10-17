@@ -32,10 +32,11 @@ class HierarchicalKeySequenceTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testDecodePathFailure()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $sequence = new HierarchicalKeySequence();
         $sequence->decodeRelative('');
     }

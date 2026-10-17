@@ -38,10 +38,11 @@ class InputCollectionMutatorTest extends AbstractTestCase
 
 
     /**
-     * @expectedException \RuntimeException
      */
     public function testInvalidSlice()
     {
+        $this->expectException(\RuntimeException::class);
+
         $collection = [
         ];
         

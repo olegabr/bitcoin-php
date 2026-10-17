@@ -127,11 +127,12 @@ class OutputScriptFactoryTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Witness commitment hash must be exactly 32-bytes
      */
     public function testBadCoinbaseWitnessCommitment()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Witness commitment hash must be exactly 32-bytes');
+
         ScriptFactory::scriptPubKey()->witnessCoinbaseCommitment(new Buffer('', 31));
     }
 }

@@ -33,11 +33,12 @@ class ProofOfWorkTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage nBits below minimum work
      */
     public function testWhereBitsBelowMinimum()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('nBits below minimum work');
+
         $math = $this->safeMath();
         $params = new Params($math);
         $pow = new ProofOfWork(new Math(), $params);

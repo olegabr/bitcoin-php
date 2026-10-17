@@ -18,10 +18,11 @@ class StaticCollectionImplTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \OutOfRangeException
      */
     public function testArrayAccessOffStaticBufferCollectionGetFailure()
     {
+        $this->expectException(\OutOfRangeException::class);
+
         $collection = new StaticBufferCollection(new Buffer("\x01"));
         $collection[20];
     }
@@ -52,10 +53,11 @@ class StaticCollectionImplTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \OutOfRangeException
      */
     public function testGetInvalid()
     {
+        $this->expectException(\OutOfRangeException::class);
+
         $StaticBufferCollection = new StaticBufferCollection();
         $StaticBufferCollection[0];
     }

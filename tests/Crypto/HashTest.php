@@ -52,20 +52,22 @@ class HashTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage PBKDF2 ERROR: Invalid hash algorithm
      */
     public function testPbkdf2FailsInvalidAlgorithm()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('PBKDF2 ERROR: Invalid hash algorithm');
+
         Hash::pbkdf2('test', new Buffer('password'), new Buffer('salt'), 100, 128);
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage PBKDF2 ERROR: Invalid parameters
      */
     public function testPbkdf2FailsInvalidCount()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('PBKDF2 ERROR: Invalid parameters');
+
         Hash::pbkdf2('sha512', new Buffer('password'), new Buffer('salt'), 0, 128);
     }
 

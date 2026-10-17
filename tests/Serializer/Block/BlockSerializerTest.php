@@ -14,10 +14,11 @@ use BitWasp\Buffertools\Buffer;
 class BlockSerializerTest extends AbstractTestCase
 {
     /**
-     * @expectedException \BitWasp\Buffertools\Exceptions\ParserOutOfRange
      */
     public function testInvalidParse()
     {
+        $this->expectException(\BitWasp\Buffertools\Exceptions\ParserOutOfRange::class);
+
         $serializer = new BlockSerializer(
             new Math,
             new BlockHeaderSerializer,

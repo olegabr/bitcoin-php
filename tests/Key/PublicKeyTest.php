@@ -64,20 +64,22 @@ class PublicKeyTest extends AbstractTestCase
     /**
      * @dataProvider getEcAdapters
      * @param EcAdapterInterface $ecAdapter
-     * @expectedException \Exception
      */
     public function testFromHexInvalidLength(EcAdapterInterface $ecAdapter)
     {
+        $this->expectException(\Exception::class);
+
         $hex = '02cffc9fcdc2a4e6f5dd91aee9d8d79828c1c93e7a76949a451aab8be6a0c44febaa';
         $pubKeyFactory = new PublicKeyFactory($ecAdapter);
         $pubKeyFactory->fromHex($hex);
     }
 
     /**
-     * @expectedException \Exception
      */
     public function testFromHexInvalidByte()
     {
+        $this->expectException(\Exception::class);
+
         $hex = '01cffc9fcdc2a4e6f5dd91aee9d8d79828c1c93e7a76949a451aab8be6a0c44feb';
         $pubKeyFactory = new PublicKeyFactory();
         $pubKeyFactory->fromHex($hex);
@@ -99,10 +101,11 @@ class PublicKeyTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Exception
      */
     public function testFromHexInvalidByte2()
     {
+        $this->expectException(\Exception::class);
+
         $hex = '04cffc9fcdc2a4e6f5dd91aee9d8d79828c1c93e7a76949a451aab8be6a0c44feb';
         $pubKeyFactory = new PublicKeyFactory();
         $pubKeyFactory->fromHex($hex);

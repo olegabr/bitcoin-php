@@ -295,11 +295,12 @@ class SignerTest extends AbstractTestCase
      * @param EcAdapterInterface $ecAdapter
      * @param ScriptInterface $script
      * @dataProvider getSimpleSpendVectors
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Signing with the wrong private key
      */
     public function testRejectsWrongKey(EcAdapterInterface $ecAdapter, ScriptInterface $script)
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Signing with the wrong private key');
+
         $outpoint = new OutPoint(new Buffer('', 32), 0xffffffff);
 
         $tx = (new TxBuilder())
@@ -338,6 +339,10 @@ class SignerTest extends AbstractTestCase
         $ecAdapter = Bitcoin::getEcAdapter();
         $checkerCreator = \BitWasp\Bitcoin\Transaction\Factory\Checker\CheckerCreator::fromEcAdapter($ecAdapter);
         $signer->setCheckerCreator($checkerCreator);
+
+        // The signer has no inputs, so nothing can be signed, but setting a
+        // checker creator on an empty signer must not blow up.
+        $this->assertCount(0, $signer->get()->getInputs());
     }
 
     public function testSetCheckerCreator()

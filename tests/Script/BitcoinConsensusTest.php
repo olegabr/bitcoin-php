@@ -14,15 +14,17 @@ class BitcoinConsensusTest extends AbstractTestCase
 {
     public function testOptionalCheckScriptFlags()
     {
-        if (extension_loaded('bitcoinconsensus')) {
-            $flags = 1 | 3 | 2 | 65;
-            $check = $flags == ($flags & BITCOINCONSENSUS_SCRIPT_FLAGS_VERIFY_ALL);
-            $this->assertFalse($check);
-
-            $c = new BitcoinConsensus();
-            $this->assertThrows(function () use ($c, $flags) {
-                $c->verify(new Transaction(), new Script(null), $flags, 0, 0);
-            }, BitcoinConsensusException::class, 'Invalid flags for bitcoinconsensus');
+        if (!extension_loaded('bitcoinconsensus')) {
+            $this->markTestSkipped('ext-bitcoinconsensus is not loaded');
         }
+
+        $flags = 1 | 3 | 2 | 65;
+        $check = $flags == ($flags & BITCOINCONSENSUS_SCRIPT_FLAGS_VERIFY_ALL);
+        $this->assertFalse($check);
+
+        $c = new BitcoinConsensus();
+        $this->assertThrows(function () use ($c, $flags) {
+            $c->verify(new Transaction(), new Script(null), $flags, 0, 0);
+        }, BitcoinConsensusException::class, 'Invalid flags for bitcoinconsensus');
     }
 }
