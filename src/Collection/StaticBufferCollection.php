@@ -25,7 +25,7 @@ class StaticBufferCollection extends StaticCollection
      * StaticBufferCollection constructor.
      * @param BufferInterface ...$values
      */
-    public function __construct(BufferInterface... $values)
+    public function __construct(BufferInterface...$values)
     {
         $this->set = $values;
     }
