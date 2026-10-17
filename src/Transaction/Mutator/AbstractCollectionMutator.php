@@ -12,6 +12,15 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
     protected $set;
 
     /**
+     * SplFixedArray stopped implementing Iterator in PHP 8.0 (it is an
+     * IteratorAggregate now), so the iteration state is kept here instead of
+     * being delegated to the SplFixedArray itself.
+     *
+     * @var int
+     */
+    protected $position = 0;
+
+    /**
      * @return array
      */
     public function all(): array
@@ -36,11 +45,11 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
     }
 
     /**
-     *
+     * @return void
      */
     public function rewind()
     {
-        $this->set->rewind();
+        $this->position = 0;
     }
 
     /**
@@ -48,7 +57,7 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
      */
     public function current()
     {
-        return $this->set->current();
+        return $this->set[$this->position];
     }
 
     /**
@@ -56,15 +65,15 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
      */
     public function key()
     {
-        return $this->set->key();
+        return $this->position;
     }
 
     /**
-     *
+     * @return void
      */
     public function next()
     {
-        $this->set->next();
+        ++$this->position;
     }
 
     /**
@@ -72,7 +81,7 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
      */
     public function valid()
     {
-        return $this->set->valid();
+        return $this->position < count($this->set);
     }
 
     /**
