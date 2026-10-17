@@ -34,7 +34,7 @@
   },
   "require": {
     "php-64bit": "^7.0|^8.0",
-    "pleonasm/merkle-tree": "^2.0",
+    "pleonasm/merkle-tree": "^2.1",
     "composer/semver": "^1.4.0|^3.2.0",
     "lastguest/murmurhash": "v2.1.1",
     "paragonie/ecc": "^2.1.0",
