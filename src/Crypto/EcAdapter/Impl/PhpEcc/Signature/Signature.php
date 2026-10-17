@@ -79,6 +79,16 @@ class Signature extends Serializable implements SignatureInterface, \Mdanter\Ecc
     }
 
     /**
+     * Required by paragonie/ecc's SignatureInterface (2.x).
+     *
+     * @return string
+     */
+    public function getSignatureType(): string
+    {
+        return "ecdsa";
+    }
+
+    /**
      * @return \BitWasp\Buffertools\BufferInterface
      */
     public function getBuffer(): BufferInterface
