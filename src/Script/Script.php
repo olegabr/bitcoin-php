@@ -41,7 +41,7 @@ class Script extends Serializable implements ScriptInterface
      * @param BufferInterface $script
      * @param Opcodes|null $opCodes
      */
-    public function __construct(BufferInterface $script = null, Opcodes $opCodes = null)
+    public function __construct(?BufferInterface $script = null, ?Opcodes $opCodes = null)
     {
         $this->script = $script instanceof BufferInterface ? $script->getBinary() : '';
         $this->opCodes = $opCodes ?: new Opcodes();
@@ -226,7 +226,7 @@ class Script extends Serializable implements ScriptInterface
      * @param array|null $ops
      * @return bool
      */
-    public function isPushOnly(array&$ops = null): bool
+    public function isPushOnly(?array &$ops = null): bool
     {
         $decoded = $this->getScriptParser()->decode();
         $data = [];
@@ -255,7 +255,7 @@ class Script extends Serializable implements ScriptInterface
      * @param WitnessProgram|null $program
      * @return bool
      */
-    public function isWitness(& $program = null): bool
+    public function isWitness(&$program = null): bool
     {
         $buffer = $this->getBuffer();
         $size = $buffer->getSize();
@@ -286,12 +286,15 @@ class Script extends Serializable implements ScriptInterface
      * @param BufferInterface $scriptHash
      * @return bool
      */
-    public function isP2SH(& $scriptHash): bool
+    public function isP2SH(&$scriptHash): bool
     {
+        // NB: these used to be assignments ("=") instead of comparisons, which
+        // silently rewrote the script. String offsets are single-character
+        // strings, so the opcodes are compared through chr().
         if (strlen($this->script) === 23
-            && $this->script[0] = Opcodes::OP_HASH160
-            && $this->script[1] = 20
-            && $this->script[22] = Opcodes::OP_EQUAL
+            && $this->script[0] === chr(Opcodes::OP_HASH160)
+            && $this->script[1] === chr(20)
+            && $this->script[22] === chr(Opcodes::OP_EQUAL)
         ) {
             $scriptHash = new Buffer(substr($this->script, 2, 20));
             return true;

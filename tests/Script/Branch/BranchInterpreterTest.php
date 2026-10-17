@@ -193,7 +193,10 @@ class BranchInterpreterTest extends AbstractTestCase
                 $item = 'OP_CHECKSEQUENCEVERIFY';
             }
 
-            if (strlen($item) == '') {
+            // `strlen($item) == ''` was true on PHP 7 and is false on PHP 8, so
+            // an empty token used to fall through and become OP_0.
+            if ($item === '') {
+                continue;
             } else if (preg_match("/^[0-9]*$/", $item) || substr($item, 0, 1) === "-" && preg_match("/^[0-9]*$/", substr($item, 1))) {
                 $builder->int((int) $item);
             } else if (substr($item, 0, 2) === "0x") {

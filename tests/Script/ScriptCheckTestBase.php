@@ -56,7 +56,7 @@ abstract class ScriptCheckTestBase extends AbstractTestCase
     public function buildSpendTransaction(
         TransactionInterface $tx,
         ScriptInterface $scriptSig,
-        ScriptWitnessInterface $scriptWitness = null
+        ?ScriptWitnessInterface $scriptWitness = null
     ): TransactionInterface {
         return new Transaction(
             1,
@@ -128,7 +128,12 @@ abstract class ScriptCheckTestBase extends AbstractTestCase
                 $item = 'OP_CHECKSEQUENCEVERIFY';
             }
 
-            if (strlen($item) == '') {
+            // An empty token means an empty script: `strlen($item) == ''` was
+            // true on PHP 7 but is false on PHP 8 (0 == '' no longer holds), and
+            // the empty string then matched the numeric branch and turned into
+            // OP_0 instead of vanishing.
+            if ($item === '') {
+                continue;
             } else if (preg_match("/^[0-9]*$/", $item) || substr($item, 0, 1) === "-" && preg_match("/^[0-9]*$/", substr($item, 1))) {
                 $builder->int((int) $item);
             } else if (substr($item, 0, 2) === "0x") {
