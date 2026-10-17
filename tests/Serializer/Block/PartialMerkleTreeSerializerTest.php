@@ -33,7 +33,7 @@ class PartialMerkleTreeSerializerTest extends AbstractTestCase
         $parsed = $serializer->parse($serialized);
 
         $treeBits = $tree->getFlagBits();
-        $parsedBits = $tree->getFlagBits();
+        $parsedBits = $parsed->getFlagBits();
         $last = min(count($treeBits), count($parsedBits));
         for ($i = 0; $i < $last; $i++) {
             $this->assertEquals($treeBits[$i], $parsedBits[$i]);

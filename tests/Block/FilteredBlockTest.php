@@ -35,7 +35,9 @@ class FilteredBlockTest extends AbstractTestCase
         // Check that the serialized NetworkMessage can be parsed again
         $serializer = new FilteredBlockSerializer(new BlockHeaderSerializer(), new PartialMerkleTreeSerializer());
         $parsed = $serializer->parse($serialized);
-        $this->assertEquals($filtered, $parsed);
+        // Flag bits are stored per byte, so a parsed tree carries zero padding bits
+        // that the built one does not; the wire form is what has to match.
+        $this->assertSame($serialized->getHex(), $parsed->getHex());
 
         $tree = $filtered->getPartialTree();
         /** @var \BitWasp\Buffertools\Buffer[] $matches */

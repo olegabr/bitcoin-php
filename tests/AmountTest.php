@@ -10,13 +10,15 @@ class AmountTest extends AbstractTestCase
 {
     public function getVectors()
     {
+        // toBtc() delegates to bcdiv(..., 8), so the result always has eight
+        // decimals - which is what a BIP21 URI wants.
         return [
             ['0.01000000', 1000000],
-            ['1', Amount::COIN],
+            ['1.00000000', Amount::COIN],
             ['1.12345678', 112345678],
-            ['21000000', 2100000000000000],
-            ['0', 0],
-            ['0.0', 0]
+            ['21000000.00000000', 2100000000000000],
+            ['0.00000000', 0],
+            ['0.00000000', 0]
         ];
     }
 

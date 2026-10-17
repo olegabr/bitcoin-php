@@ -190,8 +190,9 @@ class BloomFilter extends Serializable
      */
     public static function idealSize(int $nElements, float $fpRate): int
     {
+        // bcmath returns numeric strings; PHP 8 no longer accepts a string in floor().
         return (int) floor(
-            bcdiv(
+            (float) bcdiv(
                 min(
                     bcmul(
                         bcmul(
@@ -220,8 +221,9 @@ class BloomFilter extends Serializable
      */
     public static function idealNumHashFuncs(int $filterSize, int $nElements)
     {
+        // bcmath returns numeric strings; PHP 8 no longer accepts a string in floor().
         return (int) floor(
-            min(
+            (float) min(
                 bcmul(
                     bcdiv(
                         bcmul(

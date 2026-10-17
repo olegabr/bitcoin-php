@@ -69,10 +69,14 @@ class PartialMerkleTreeSerializer
     {
         list ($txCount, $vHash, $vBits) = $this->template->parse($parser);
 
+        // The bit vector carries its own length (one byte per eight flag bits),
+        // it is not limited by the transaction count: passing $txCount here
+        // sliced the flags by the wrong amount and, on PHP 8, blew up because
+        // the parsed value is a Buffer, not an int.
         return new PartialMerkleTree(
-            (int)$txCount,
+            (int) $txCount,
             $vHash,
-            $this->buffersToBitArray($txCount, $vBits)
+            $this->buffersToBitArray(count($vBits) * 8, $vBits)
         );
     }
 

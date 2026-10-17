@@ -77,7 +77,11 @@ class ProofOfWork
         $intPart = substr($difficulty, 0, 0 - self::DIFF_PRECISION);
         $decPart = substr($difficulty, 0 - self::DIFF_PRECISION, self::DIFF_PRECISION);
         
-        return $intPart . '.' . $decPart;
+        // Trailing zeros carry no information and differ from the values in
+        // Bitcoin Core's fixtures ("1", not "1.000000000000").
+        $value = rtrim(rtrim($intPart . '.' . $decPart, '0'), '.');
+
+        return '' === $value ? '0' : $value;
     }
 
     /**
